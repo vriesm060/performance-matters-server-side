@@ -20,6 +20,6 @@ app.get('/', function (req, res) {
 app.listen(3000)
 ```
 
-## Build
+## Build it yourself
 `git clone`, run `npm install` and `npm build` to build the site.
 Run `npm start` to start the server on port 3000.
