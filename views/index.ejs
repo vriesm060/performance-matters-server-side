@@ -1,3 +1,19 @@
+<!DOCTYPE html>
+<html lang="nl">
+
 <% include head.ejs %>
 
-<h1><%= h1 %></h1>
+<body>
+	<h1>Hoe zag jouw straat er vroeger uit?</h1>
+
+	<section class="options">
+		<h2 id="street-name">Amsterdam</h2>
+
+		<form class="search" action="/search" method="GET">
+			<div class="autocomplete">
+				<input type="search" name="searchbar" value="" placeholder="Zoek een straat..." autocomplete="off">
+			</div>
+		</form>
+	</section>
+</body>
+</html>
