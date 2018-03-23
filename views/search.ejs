@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="nl">
+
+<% include head.ejs %>
+
+<body>
+	<ul class="search-results">
+		<% for(var i = 0; i < streets.length; i++) { %>
+			<li>
+				<a href="/details/<%= streets[i].properties.slug %>/<%= streets[i].properties.id %>">
+					<%= streets[i].properties.streetName %>
+				</a>
+			</li>
+		<% } %>
+	</ul>
+</body>
+</html>
