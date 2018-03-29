@@ -4,7 +4,8 @@
 <% include head.ejs %>
 
 <body>
-	<ul class="search-results">
+
+  <ul class="search-results">
 		<% for(var i = 0; i < streets.length; i++) { %>
 			<li>
 				<a href="/details/<%= streets[i].properties.slug %>/<%= streets[i].properties.id %>">
@@ -13,5 +14,6 @@
 			</li>
 		<% } %>
 	</ul>
+
 </body>
 </html>

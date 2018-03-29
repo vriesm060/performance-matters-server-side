@@ -23,3 +23,7 @@ app.listen(3000)
 ## Build it yourself
 `git clone`, run `npm install` and `npm build` to build the site.
 Run `npm start` to start the server on port 3000.
+
+## Get data
+
+* Installed request through NPM and saved it in the dependencies list

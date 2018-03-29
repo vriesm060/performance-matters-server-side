@@ -1,9 +1,12 @@
 
 var express = require('express');
 var request = require('request');
+var bodyParser = require('body-parser');
 var app = express();
 
 app.use(express.static('public'));
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
 app.set('view engine', 'ejs');
 
 // Sparql object with all queries and query url:
@@ -29,7 +32,7 @@ var sparql = {
 			  ?street rdfs:label ?name .
 			  ?street geo:hasGeometry ?geo .
 			  ?geo geo:asWKT ?wkt .
-			}	
+			}
 		`;
 
 		return this.queryUrl(query);
@@ -54,9 +57,51 @@ var sparql = {
 	}
 };
 
+// Parse the multiline string geometry into a readable array for Leaflet JS:
+function parseMultiLineString(str) {
+	str = str.replace('MULTILINESTRING((', '');
+	str = str.replace('LINESTRING(', '');
+	str = str.replace(')', '');
+	var pointsAsString = str.split(',');
+
+	var points = pointsAsString.map(function (d) {
+		return d.split(' ');
+	});
+
+	return points;
+}
+
 // Render the homepage:
 app.get('/', function (req, res) {
-	res.render('index');
+
+	var streets = [];
+
+	request(sparql.streetsQuery(), function (err, response, body) {
+		var data = JSON.parse(body);
+		var rows = data.results.bindings;
+
+		streets = rows.map(function (row) {
+			var link = row.street.value;
+			var slug = link.slice((link.indexOf('street/') + 7), link.lastIndexOf('/'));
+			var id = link.slice(link.lastIndexOf('/') + 1);
+
+			return {
+				'type': 'Feature',
+				'properties': {
+					'streetName': row.name.value,
+					'link': link,
+					'slug': slug,
+					'id': id
+				},
+				'geometry': parseMultiLineString(row.wkt.value)
+			};
+		});
+
+		res.render('index', {
+			streets: streets
+		});
+	});
+
 });
 
 // Render the search page with search results:
@@ -68,20 +113,6 @@ app.get('/search', function (req, res) {
 	request(sparql.streetsQuery(), function (err, response, body) {
 		var data = JSON.parse(body);
 		var rows = data.results.bindings;
-
-		// Parse the multiline string geometry into a readable array for Leaflet JS:
-		function parseMultiLineString(str) {
-			str = str.replace('MULTILINESTRING((', '');
-			str = str.replace('LINESTRING(', '');
-			str = str.replace(')', '');
-			var pointsAsString = str.split(',');
-
-			var points = pointsAsString.map(function (d) {
-				return d.split(' ');
-			});
-
-			return points;
-		}
 
 		// Filter the data to find every street which name includes the input value:
 		var streets = rows.filter(function (row) {

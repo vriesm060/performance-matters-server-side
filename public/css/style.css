@@ -27,6 +27,7 @@
 		margin: 0;
 		font-family: inherit;
 		font-weight: inherit;
+
 	}
 
 	html {
@@ -61,7 +62,6 @@
 		flex-direction: column;
 		width: 100%;
 		padding: var(--spacing-unit);
-		/*background-color: green;*/
 	}
 
 	.search-results li {
