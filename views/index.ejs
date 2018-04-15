@@ -10,9 +10,11 @@
 		<h2 id="street-name">Amsterdam</h2>
 
 		<form class="search" action="/search" method="GET">
-			<div class="autocomplete">
+			<div class="inputs">
 				<input type="search" name="searchbar" value="" placeholder="Zoek een straat..." autocomplete="off">
+				<button type="submit" name="button">Zoek</button>
 			</div>
+			<div class="autocomplete"></div>
 		</form>
 	</section>
 
@@ -39,7 +41,6 @@
 
 			var app = {
 				init: function () {
-					console.log(streetProperties);
 					search.init(streetProperties);
 				}
 			};
@@ -100,7 +101,7 @@
 					ul.setAttribute('id', this.searchbar.id + 'autocomplete-list');
 					ul.setAttribute('class', 'autocomplete-items');
 
-					this.searchbar.parentNode.appendChild(ul);
+					this.searchbar.parentNode.nextElementSibling.appendChild(ul);
 
 					results.forEach(function (result, i) {
 						if (i < 2) {

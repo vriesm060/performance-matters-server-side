@@ -125,6 +125,11 @@
 		background-color: var(--primary-color);
 	}
 
+	.inputs {
+		display: flex;
+		margin: var(--spacing-unit);
+	}
+
 	input[name='searchbar'] {
 		display: block;
 		width: calc(100% - (2 * var(--spacing-unit)));
@@ -135,7 +140,6 @@
 		border-left: 5px solid transparent;
 		border-radius: 0;
 		outline: 0;
-		margin: var(--spacing-unit);
 		color: var(--black-color);
 		background-color: #fff;
 		font-size: var(--font-size);
@@ -146,6 +150,19 @@
 	}
 	input[name='searchbar']:focus {
 		border-left-color: var(--black-color);
+	}
+
+	button[type='submit'] {
+		display: block;
+		height: 3.125rem;
+		padding: calc((3.125rem - var(--font-size)) / 2);
+		border: 0;
+		border-radius: 0;
+		outline: 0;
+		color: #FFF;
+		background-color: var(--black-color);
+		font-size: var(--font-size);
+		line-height: 1;
 	}
 
 	.autocomplete a {
