@@ -14,7 +14,7 @@ var sparql = {
 	encodedQuery: function (query) { return encodeURIComponent(query); },
 	queryUrl: function (query) {
 		return `
-			https://api.data.adamlink.nl/datasets/AdamNet/all/services/endpoint/sparql?default-graph-uri=&query=
+			https://api.data.adamlink.nl/datasets/AdamNet/all/services/hva2018/sparql?default-graph-uri=&query=
 			${this.encodedQuery(query)}
 			&format=application%2Fsparql-results%2Bjson&timeout=0&debug=on
 		`;
@@ -147,6 +147,7 @@ app.get('/search', function (req, res) {
 
 app.get('/details/:slug/:id', function (req, res) {
 	request(sparql.streetDetailsQuery(req.params.slug, req.params.id), function (err, response, body) {
+
 		var data = JSON.parse(body);
 		var rows = data.results.bindings;
 
