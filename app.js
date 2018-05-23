@@ -2,12 +2,13 @@
 var express = require('express');
 var request = require('request');
 var bodyParser = require('body-parser');
+var pug = require('pug');
 var app = express();
 
 app.use(express.static('public'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
-app.set('view engine', 'ejs');
+app.set('view engine', 'pug');
 
 // Sparql object with all queries and query url:
 var sparql = {
@@ -98,7 +99,7 @@ app.get('/', function (req, res) {
 		});
 
 		res.render('index', {
-			streets: streets
+			streets: JSON.stringify(streets)
 		});
 	});
 

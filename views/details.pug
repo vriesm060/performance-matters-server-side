@@ -1,0 +1,14 @@
+include head.pug
+
+	div(class="timeline--container")
+		ol(class="timeline")
+
+			for (var i = 0; i < years.length; i++)
+			li
+				a(href="#")
+					span #{years[i].year}
+				ul
+
+					for (var j = 0; j < years[i].images.length; j++)
+					li
+						img(src="#{years[i].images[j].value}")

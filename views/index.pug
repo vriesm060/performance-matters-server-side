@@ -1,0 +1,17 @@
+include head.pug
+
+	h1 Hoe zag jouw straat er vroeger uit?
+
+	section
+		h2(id="street-name") Amsterdam
+
+		form(class="search" action="/search" method="GET")
+			div(class="inputs")
+				input(type="search" name="searchbar" value="" placeholder="Zoek een straat..." autocomplete="off")
+				button(type="submit" name="button") Zoek
+			div(class="autocomplete")
+
+	script.
+		var data = JSON.parse(`!{streets}`);
+
+	script(type="text/javascript" src="/js/home.js")
