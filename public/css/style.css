@@ -92,16 +92,14 @@
 */
 
 	.options {
-		position: absolute;
 		z-index: 2;
-		left: 0;
-		bottom: 0;
 		display: flex;
 		flex-direction: column;
 		width: 100%;
 	}
 
 	.options h2 {
+		order: 2;
 		padding: var(--spacing-unit);
 		margin: var(--spacing-unit);
 		font-size: calc(1.5 * var(--font-size));
@@ -116,7 +114,7 @@
 */
 
 	.search {
-		order: 3;
+		order: 1;
 		position: relative;
 		display: block;
 		width: 100%;
