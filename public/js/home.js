@@ -2,8 +2,6 @@
 
 (function () {
 
-  console.log(data);
-
   var app = {
     init: function () {
       search.init(data);
@@ -76,8 +74,8 @@
 
           li.appendChild(a);
 
-          a.textContent = result.name;
-          a.href = '/details/' + result.slug + '/' + result.id;
+          a.textContent = result.properties.streetName;
+          a.href = '/details/' + result.properties.slug + '/' + result.properties.id;
 
           a.addEventListener('click', function (e) {
             self.searchbar.value = this.textContent;
