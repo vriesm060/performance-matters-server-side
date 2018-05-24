@@ -8,8 +8,20 @@ include head.pug
 				input(type="search" name="searchbar" value="" placeholder="Zoek een straat..." autocomplete="off")
 				button(type="submit" name="button") Zoek
 			div(class="autocomplete")
+		
+		div(class="timeline--container")
+			ul(class="timeline")
+		
+		div(class="images--container")
+			button(class="close-btn" type="button" aria-label="Sluit dit venster")
+				svg(version="1.1" xmlns="http://www.w3.org/2000/svg" xlmns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 500 500")
+					rect(x="237.5" y="0" transform="matrix(0.7071 -0.7071 0.7071 0.7071 -103.5534 250)" width="25" height="500")
+					rect(x="0" y="237.5" transform="matrix(0.7071 -0.7071 0.7071 0.7071 -103.5534 250)" width="500" height="25")
+			ul
 
 	script.
 		var data = JSON.parse(`!{streets}`);
+		
+		console.log(data);
 
 	script(type="text/javascript" src="/js/home.js")
