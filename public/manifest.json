@@ -1,0 +1,10 @@
+{
+	"name": "oba-server-side",
+	"short_name": "oba-server-side",
+	"start_url": ".",
+	"dir": "auto",
+	"display": "standalone",
+	"background_color": "#ffffff",
+	"theme_color": "#e0434e",
+	"description": ""
+}
