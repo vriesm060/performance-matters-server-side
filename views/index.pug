@@ -19,9 +19,9 @@ include head.pug
 				ul(class="timeline")
 					each item in JSON.parse(details)
 						li(style="left:" + item.left + "%;")
-							a(href="#")
+							a(href="/images/" + item.year)
 								span= item.year
-		
+
 		div(class="images--container")
 			button(class="close-btn" type="button" aria-label="Sluit dit venster")
 				svg(version="1.1" xmlns="http://www.w3.org/2000/svg" xlmns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 500 500")
@@ -37,8 +37,10 @@ include head.pug
 				//- 	img(src="http://images.memorix.nl/ams/thumb/640x480/d2e86eb9-36fc-323e-0f93-e6363e25a679.jpg")
 
 	script.
-		var data = JSON.parse(`!{streets}`);
+		var streets = JSON.parse(`!{streets}`);
+		var details = JSON.parse(`!{details}`);
 		
-		console.log(data);
+		console.log('data:', streets);
+		console.log('details:', details);
 
 	script(type="text/javascript" src="/js/home.js")
