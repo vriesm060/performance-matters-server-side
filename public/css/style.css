@@ -209,10 +209,13 @@ button[type='submit'] {
 
 .timeline--container {
 	order: 2;
-	display: block;
+	display: none;
 	width: 100%;
 	padding: calc(3 * var(--spacing-unit)) var(--spacing-unit);
 	background-color: var(--color-black);
+}
+.timeline--container.show {
+	display: block;
 }
 
 .timeline {
@@ -278,7 +281,7 @@ button[type='submit'] {
 
 .images--container {
 	order: 3;
-	display: flex;
+	display: none;
 	flex-wrap: wrap;
 	justify-content: flex-end;
 	width: 100%;
