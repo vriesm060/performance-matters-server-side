@@ -6,9 +6,9 @@ This is a web app, created for the [Openbare Bibliotheek Amsterdam](https://www.
 
 ## Table of Contents
 
-* [Frameworks](#frameworks and packages)
+* [Frameworks and packages](#frameworks-and-packages)
 * [Installation](#installation)
-* [Getting started](#getting started)
+* [Getting started](#getting-started)
 * [Data](#data)
 * [Features](#features)
 * [Usage](#usage)
