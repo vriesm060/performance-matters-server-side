@@ -1,5 +1,31 @@
 'use strict';
 
+var offlineMsg = document.querySelector('.offline');
+
+window.addEventListener('online', function () {
+  online();
+}, false)
+
+window.addEventListener('offline', function () {
+  offline();
+}, false)
+
+if (!navigator.onLine) {
+	offline();
+}
+
+function online() {
+  offlineMsg.classList.add('hidden');
+  document.querySelector('.search .inputs > input').removeAttribute('disabled');
+  document.querySelector('.search .inputs > button').removeAttribute('disabled');
+}
+
+function offline() {
+  offlineMsg.classList.remove('hidden');
+  document.querySelector('.search .inputs > input').setAttribute('disabled', 'true');
+  document.querySelector('.search .inputs > button').setAttribute('disabled', 'true');
+}
+
 (function () {
 
   var app = {
