@@ -1,10 +1,12 @@
 // Source excluding the comments: https://github.com/voorhoede/workshop-cmd-pwa/blob/exercise-11-use-cached-page/src/sw.js
 
 self.addEventListener('install', event => event.waitUntil(
-	caches.open('rba-v1-core')
+	caches.open('oba-project')
 		// Add the following files/'routes' to the cache
 		.then(cache => cache.addAll([
-			'/offline/'
+			'/',
+      '/css/style.css',
+      '/js/home.js'
 		]))
 		.then(self.skipWaiting())
 ));
@@ -23,26 +25,26 @@ self.addEventListener('fetch', event => {
 				// On error check wether the page has been cached before
 				.catch(err => getCachedPage(request))
 				// Go to the offline page
-				.catch(err => fetchCoreFile('/offline/'))
+				.catch(err => fetchCoreFile('/'))
 		);
 	} else {
 		event.respondWith(
 			fetch(request)
 				.catch(err => fetchCoreFile(request.url))
-				.catch(err => fetchCoreFile('/offline/'))
+				.catch(err => fetchCoreFile('/'))
 		);
 	}
 });
 
 function fetchCoreFile (url) {
-	return caches.open('rba-v1-core')
+	return caches.open('oba-project')
 	// Get/Check cache on our core files (css ect.)
 		 .then(cache => cache.match(url))
 		 .then(response => response || Promise.reject());
 }
 
 function getCachedPage (request) {
-	return caches.open('rba-v1-pages')
+	return caches.open('oba-project')
 	// Get/Check cache on cached pages
 		 .then(cache => cache.match(request))
 		 .then(response => response || Promise.reject());
@@ -53,7 +55,7 @@ function cachePage (request, response) {
 	const clonedResponse = response.clone();
 
 	// Cache the page
-	caches.open('rba-v1-pages')
+	caches.open('oba-project')
 		 .then(cache => cache.put(request, clonedResponse));
 
 	// Return the requested page
