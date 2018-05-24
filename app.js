@@ -79,8 +79,11 @@ var streetsData = [];
 // Search results:
 var searchResults = [];
 
-// street detail for current street:
+// Street detail for current street:
 var streetDetails = [];
+
+// Images for current year:
+var images = [];
 
 // Render the homepage:
 app.get('/', function (req, res) {
@@ -121,8 +124,11 @@ app.get('/', function (req, res) {
 		// Empty the searchResults:
 		searchResults.splice(0, searchResults.length);
 
-		// Empty the street details:
+		// Empty the current street details:
 		streetDetails.splice(0, streetDetails.length);
+		// if (!images.length) {
+		// 	streetDetails.splice(0, streetDetails.length);
+		// }
 
 	});
 });
@@ -189,6 +195,13 @@ app.get('/details/:slug/:id', function (req, res) {
 
 		res.redirect('/');
 	});
+});
+
+// Server side rendering of images per year when no JS is available:
+app.get('/images/:year', function (req, res) {
+	console.log('year:', req.params.year);
+
+	res.redirect('/');
 });
 
 app.listen(3000);
