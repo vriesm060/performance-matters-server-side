@@ -8,22 +8,19 @@ include head.pug
 				input(type="search" name="searchbar" value="" placeholder="Zoek een straat..." autocomplete="off")
 				button(type="submit" name="button") Zoek
 			div(class="autocomplete")
+				if search.length
+					ul(id="autocomplete-list" class="autocomplete-items")
+						each item in search
+							li
+								a(href="/details/" + item.properties.slug + "/" + item.properties.id)= item.properties.streetName
 		
-		div(class="timeline--container")
-			ul(class="timeline")
-				//- Timeline test: items will be added through JS later:
-				//- li
-				//- 	a(href="#")
-				//- 		span 1971
-				//- li
-				//- 	a(href="#")
-				//- 		span 1972
-				//- li
-				//- 	a(href="#")
-				//- 		span 1973
-				//- li
-				//- 	a(href="#")
-				//- 		span 1974
+		if JSON.parse(details).length
+			div(class="timeline--container")
+				ul(class="timeline")
+					each item in JSON.parse(details)
+						li(style="left:" + item.left + "%;")
+							a(href="#")
+								span= item.year
 		
 		div(class="images--container")
 			button(class="close-btn" type="button" aria-label="Sluit dit venster")
