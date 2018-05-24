@@ -11,6 +11,19 @@ include head.pug
 		
 		div(class="timeline--container")
 			ul(class="timeline")
+				//- Timeline test: items will be added through JS later:
+				li
+					a(href="#")
+						span 1971
+				li
+					a(href="#")
+						span 1972
+				li
+					a(href="#")
+						span 1973
+				li
+					a(href="#")
+						span 1974
 		
 		div(class="images--container")
 			button(class="close-btn" type="button" aria-label="Sluit dit venster")
@@ -18,6 +31,13 @@ include head.pug
 					rect(x="237.5" y="0" transform="matrix(0.7071 -0.7071 0.7071 0.7071 -103.5534 250)" width="25" height="500")
 					rect(x="0" y="237.5" transform="matrix(0.7071 -0.7071 0.7071 0.7071 -103.5534 250)" width="500" height="25")
 			ul
+				//- Images test: items will be added through JS later:
+				li
+					img(src="http://images.memorix.nl/ams/thumb/640x480/d2e86eb9-36fc-323e-0f93-e6363e25a679.jpg")
+				li
+					img(src="http://images.memorix.nl/ams/thumb/640x480/d2e86eb9-36fc-323e-0f93-e6363e25a679.jpg")
+				li
+					img(src="http://images.memorix.nl/ams/thumb/640x480/d2e86eb9-36fc-323e-0f93-e6363e25a679.jpg")
 
 	script.
 		var data = JSON.parse(`!{streets}`);

@@ -34,6 +34,7 @@ var sparql = {
 			  ?street geo:hasGeometry ?geo .
 			  ?geo geo:asWKT ?wkt .
 			}
+			LIMIT 10
 		`;
 
 		return this.queryUrl(query);
@@ -98,6 +99,8 @@ app.get('/', function (req, res) {
 			};
 		});
 
+		console.log(streets.length);
+
 		res.render('index', {
 			streets: JSON.stringify(streets)
 		});
@@ -140,9 +143,11 @@ app.get('/search', function (req, res) {
 			};
 		});
 
-		res.render('search', {
-			streets: streets
-		});
+		res.redirect('/');
+
+		// res.render('search', {
+		// 	streets: streets
+		// });
 	});
 });
 
