@@ -73,16 +73,27 @@ function parseMultiLineString(str) {
 	return points;
 }
 
+// Local data storage:
+var streetsData = [];
+
+// Search results:
+var searchResults = [];
+
+// street detail for current street:
+var streetDetails = [];
+
 // Render the homepage:
 app.get('/', function (req, res) {
 
-	var streets = [];
+	// Empty the streetsData:
+	streetsData.splice(0, streetsData.length);
 
 	request(sparql.streetsQuery(), function (err, response, body) {
 		var data = JSON.parse(body);
 		var rows = data.results.bindings;
 
-		streets = rows.map(function (row) {
+		// Map the streets data:
+		var streets = rows.map(function (row) {
 			var link = row.street.value;
 			var slug = link.slice((link.indexOf('street/') + 7), link.lastIndexOf('/'));
 			var id = link.slice(link.lastIndexOf('/') + 1);
@@ -99,61 +110,41 @@ app.get('/', function (req, res) {
 			};
 		});
 
-		console.log(streets.length);
+		streetsData = streets;
 
 		res.render('index', {
-			streets: JSON.stringify(streets)
+			streets: JSON.stringify(streetsData),
+			search: searchResults,
+			details: JSON.stringify(streetDetails)
 		});
-	});
 
+		// Empty the searchResults:
+		searchResults.splice(0, searchResults.length);
+
+		// Empty the street details:
+		streetDetails.splice(0, streetDetails.length);
+
+	});
 });
 
-// Render the search page with search results:
+// Get the search results and give them back to the homepage:
 app.get('/search', function (req, res) {
-
 	var key = Object.keys(req.query)[0];
 	var val = req.query[key];
 
-	request(sparql.streetsQuery(), function (err, response, body) {
-		var data = JSON.parse(body);
-		var rows = data.results.bindings;
-
-		// Filter the data to find every street which name includes the input value:
-		var streets = rows.filter(function (row) {
-			// Check if the input value exists in the street name:
-			if (row.name.value.toUpperCase().includes(val.toUpperCase())) {
-				return row;
-			}
-		});
-
-		streets = streets.map(function (street) {
-			var link = street.street.value;
-			var slug = link.slice((link.indexOf('street/') + 7), link.lastIndexOf('/'));
-			var id = link.slice(link.lastIndexOf('/') + 1);
-
-			return {
-				'type': 'Feature',
-				'properties': {
-					'streetName': street.name.value,
-					'link': link,
-					'slug': slug,
-					'id': id
-				},
-				'geometry': parseMultiLineString(street.wkt.value)
-			};
-		});
-
-		res.redirect('/');
-
-		// res.render('search', {
-		// 	streets: streets
-		// });
+	var results = streetsData.filter(function (street) {
+		if (street.properties.streetName.substr(0, val.length).toUpperCase() == val.toUpperCase()) {
+			return street;
+		}
 	});
+
+	searchResults = results;
+
+	res.redirect('/');
 });
 
 app.get('/details/:slug/:id', function (req, res) {
 	request(sparql.streetDetailsQuery(req.params.slug, req.params.id), function (err, response, body) {
-
 		var data = JSON.parse(body);
 		var rows = data.results.bindings;
 
@@ -186,10 +177,17 @@ app.get('/details/:slug/:id', function (req, res) {
 			years[idx].images.push(item.img);
 		});
 
-		// Add years into the timeline
-		res.render('details', {
-			years: years
-		});
+		// Calculate the distance every year in details should go on the timeline:
+		var yearsInBetween = Number(years[years.length - 1].year) - Number(years[0].year) + 1;
+	  var yearWidth = 100 / yearsInBetween;
+
+		years.forEach(function (item) {
+			item.left = ((Number(item.year) - Number(years[0].year)) * yearWidth);
+	  });
+
+		streetDetails = years;
+
+		res.redirect('/');
 	});
 });
 
