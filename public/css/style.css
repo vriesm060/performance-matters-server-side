@@ -209,13 +209,10 @@ button[type='submit'] {
 
 .timeline--container {
 	order: 2;
-	display: none;
+	display: block;
 	width: 100%;
 	padding: calc(3 * var(--spacing-unit)) var(--spacing-unit);
 	background-color: var(--color-black);
-}
-.timeline--container.show {
-	display: block;
 }
 
 .timeline {
