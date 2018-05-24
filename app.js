@@ -5,6 +5,8 @@ var bodyParser = require('body-parser');
 var pug = require('pug');
 var app = express();
 
+require('dotenv').config({ path: './vars.env' });
+
 app.use(express.static('public'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -204,4 +206,4 @@ app.get('/images/:year', function (req, res) {
 	res.redirect('/');
 });
 
-app.listen(3000);
+app.listen(process.env.PORT);
