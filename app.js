@@ -2,19 +2,22 @@
 var express = require('express');
 var request = require('request');
 var bodyParser = require('body-parser');
+var pug = require('pug');
 var app = express();
+
+require('dotenv').config({ path: './vars.env' });
 
 app.use(express.static('public'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
-app.set('view engine', 'ejs');
+app.set('view engine', 'pug');
 
 // Sparql object with all queries and query url:
 var sparql = {
 	encodedQuery: function (query) { return encodeURIComponent(query); },
 	queryUrl: function (query) {
 		return `
-			https://api.data.adamlink.nl/datasets/AdamNet/all/services/endpoint/sparql?default-graph-uri=&query=
+			https://api.data.adamlink.nl/datasets/AdamNet/all/services/hva2018/sparql?default-graph-uri=&query=
 			${this.encodedQuery(query)}
 			&format=application%2Fsparql-results%2Bjson&timeout=0&debug=on
 		`;
@@ -71,16 +74,27 @@ function parseMultiLineString(str) {
 	return points;
 }
 
+// Create a storage object:
+var storage = {
+	allStreets: [],
+	searchResults: [],
+	streetDetails: [],
+	streetDetailsCopy: [],
+	images: []
+};
+
 // Render the homepage:
 app.get('/', function (req, res) {
 
-	var streets = [];
+	// Empty allStreets data:
+	storage.allStreets.splice(0, storage.allStreets.length);
 
 	request(sparql.streetsQuery(), function (err, response, body) {
 		var data = JSON.parse(body);
 		var rows = data.results.bindings;
 
-		streets = rows.map(function (row) {
+		// Map the streets data:
+		var streets = rows.map(function (row) {
 			var link = row.street.value;
 			var slug = link.slice((link.indexOf('street/') + 7), link.lastIndexOf('/'));
 			var id = link.slice(link.lastIndexOf('/') + 1);
@@ -97,52 +111,44 @@ app.get('/', function (req, res) {
 			};
 		});
 
-		res.render('index', {
-			streets: streets
-		});
-	});
+		// Add new streets data:
+		storage.allStreets = streets;
 
+		res.render('index', {
+			streets: JSON.stringify(storage.allStreets),
+			search: storage.searchResults,
+			details: JSON.stringify(storage.streetDetailsCopy),
+			images: JSON.stringify(storage.images)
+		});
+
+		// Empty the searchResults:
+		storage.searchResults.splice(0, storage.searchResults.length);
+
+		// Empty the current street details:
+		if (storage.streetDetailsCopy.length) {
+			storage.streetDetailsCopy.splice(0, storage.streetDetailsCopy.length);
+		}
+
+		// Empty the images array:
+		storage.images.splice(0, storage.images.length);
+
+	});
 });
 
-// Render the search page with search results:
+// Get the search results and give them back to the homepage:
 app.get('/search', function (req, res) {
-
 	var key = Object.keys(req.query)[0];
 	var val = req.query[key];
 
-	request(sparql.streetsQuery(), function (err, response, body) {
-		var data = JSON.parse(body);
-		var rows = data.results.bindings;
-
-		// Filter the data to find every street which name includes the input value:
-		var streets = rows.filter(function (row) {
-			// Check if the input value exists in the street name:
-			if (row.name.value.toUpperCase().includes(val.toUpperCase())) {
-				return row;
-			}
-		});
-
-		streets = streets.map(function (street) {
-			var link = street.street.value;
-			var slug = link.slice((link.indexOf('street/') + 7), link.lastIndexOf('/'));
-			var id = link.slice(link.lastIndexOf('/') + 1);
-
-			return {
-				'type': 'Feature',
-				'properties': {
-					'streetName': street.name.value,
-					'link': link,
-					'slug': slug,
-					'id': id
-				},
-				'geometry': parseMultiLineString(street.wkt.value)
-			};
-		});
-
-		res.render('search', {
-			streets: streets
-		});
+	var results = storage.allStreets.filter(function (street) {
+		if (street.properties.streetName.substr(0, val.length).toUpperCase() == val.toUpperCase()) {
+			return street;
+		}
 	});
+
+	storage.searchResults = results;
+
+	res.redirect('/');
 });
 
 app.get('/details/:slug/:id', function (req, res) {
@@ -179,11 +185,33 @@ app.get('/details/:slug/:id', function (req, res) {
 			years[idx].images.push(item.img);
 		});
 
-		// Add years into the timeline
-		res.render('details', {
-			years: years
-		});
+		// Calculate the distance every year in details should go on the timeline:
+		var yearsInBetween = Number(years[years.length - 1].year) - Number(years[0].year) + 1;
+	  var yearWidth = 100 / yearsInBetween;
+
+		years.forEach(function (item) {
+			item.left = ((Number(item.year) - Number(years[0].year)) * yearWidth);
+	  });
+
+		storage.streetDetails = years;
+		storage.streetDetailsCopy = storage.streetDetails.slice();
+
+		res.redirect('/');
 	});
 });
 
-app.listen(3000);
+// Server side rendering of images per year when no JS is available:
+app.get('/images/:year', function (req, res) {
+	var img = storage.streetDetails.filter(function (item) {
+		if (item.year === req.params.year) {
+			return item;
+		}
+	});
+
+	storage.images = img[0].images;
+	storage.streetDetailsCopy = storage.streetDetails.slice();
+
+	res.redirect('/');
+});
+
+app.listen(process.env.PORT);

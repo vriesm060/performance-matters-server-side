@@ -1,0 +1,50 @@
+include head.pug
+
+	section(class="offline hidden")
+		h2 Je bent nu offline.
+
+	section(class="options")
+		h2(id="street-name") Amsterdam
+
+		form(class="search" action="/search" method="GET")
+			div(class="inputs")
+				input(type="search" name="searchbar" value="" placeholder="Zoek een straat..." autocomplete="off")
+				button(type="submit" name="button") Zoek
+			div(class="autocomplete")
+				if search.length
+					ul(id="autocomplete-list" class="autocomplete-items")
+						each item in search
+							li
+								a(href="/details/" + item.properties.slug + "/" + item.properties.id)= item.properties.streetName
+		
+		if JSON.parse(details).length
+			div(class="timeline--container")
+				ul(class="timeline")
+					each item in JSON.parse(details)
+						li(style="left:" + item.left + "%;")
+							a(href="/images/" + item.year)
+								span= item.year
+
+		if JSON.parse(images).length						
+			div(class="images--container show")
+				button(class="close-btn" type="button" aria-label="Sluit dit venster")
+					svg(version="1.1" xmlns="http://www.w3.org/2000/svg" xlmns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 500 500")
+						rect(x="237.5" y="0" transform="matrix(0.7071 -0.7071 0.7071 0.7071 -103.5534 250)" width="25" height="500")
+						rect(x="0" y="237.5" transform="matrix(0.7071 -0.7071 0.7071 0.7071 -103.5534 250)" width="500" height="25")
+				ul
+					each item in JSON.parse(images)
+						li
+							img(src=item.value)
+		else
+			div(class="images--container")
+				button(class="close-btn" type="button" aria-label="Sluit dit venster")
+					svg(version="1.1" xmlns="http://www.w3.org/2000/svg" xlmns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 500 500")
+						rect(x="237.5" y="0" transform="matrix(0.7071 -0.7071 0.7071 0.7071 -103.5534 250)" width="25" height="500")
+						rect(x="0" y="237.5" transform="matrix(0.7071 -0.7071 0.7071 0.7071 -103.5534 250)" width="500" height="25")
+				ul
+
+	script.
+		var streets = JSON.parse(`!{streets}`);
+		var details = JSON.parse(`!{details}`);
+
+	script(type="text/javascript" src="/js/script.js")
