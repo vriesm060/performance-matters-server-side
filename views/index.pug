@@ -25,19 +25,16 @@ include head.pug
 							a(href="/images/" + item.year)
 								span= item.year
 
-		div(class="images--container")
-			button(class="close-btn" type="button" aria-label="Sluit dit venster")
-				svg(version="1.1" xmlns="http://www.w3.org/2000/svg" xlmns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 500 500")
-					rect(x="237.5" y="0" transform="matrix(0.7071 -0.7071 0.7071 0.7071 -103.5534 250)" width="25" height="500")
-					rect(x="0" y="237.5" transform="matrix(0.7071 -0.7071 0.7071 0.7071 -103.5534 250)" width="500" height="25")
-			ul
-				//- Images test: items will be added through JS later:
-				//- li
-				//- 	img(src="http://images.memorix.nl/ams/thumb/640x480/d2e86eb9-36fc-323e-0f93-e6363e25a679.jpg")
-				//- li
-				//- 	img(src="http://images.memorix.nl/ams/thumb/640x480/d2e86eb9-36fc-323e-0f93-e6363e25a679.jpg")
-				//- li
-				//- 	img(src="http://images.memorix.nl/ams/thumb/640x480/d2e86eb9-36fc-323e-0f93-e6363e25a679.jpg")
+		if JSON.parse(images).length						
+			div(class="images--container show")
+				button(class="close-btn" type="button" aria-label="Sluit dit venster")
+					svg(version="1.1" xmlns="http://www.w3.org/2000/svg" xlmns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 500 500")
+						rect(x="237.5" y="0" transform="matrix(0.7071 -0.7071 0.7071 0.7071 -103.5534 250)" width="25" height="500")
+						rect(x="0" y="237.5" transform="matrix(0.7071 -0.7071 0.7071 0.7071 -103.5534 250)" width="500" height="25")
+				ul
+					each item in JSON.parse(images)
+						li
+							img(src=item.value)
 
 	script.
 		var streets = JSON.parse(`!{streets}`);

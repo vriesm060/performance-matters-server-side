@@ -83,6 +83,7 @@ var searchResults = [];
 
 // Street detail for current street:
 var streetDetails = [];
+var copyDetails = [];
 
 // Images for current year:
 var images = [];
@@ -120,17 +121,20 @@ app.get('/', function (req, res) {
 		res.render('index', {
 			streets: JSON.stringify(streetsData),
 			search: searchResults,
-			details: JSON.stringify(streetDetails)
+			details: JSON.stringify(copyDetails),
+			images: JSON.stringify(images)
 		});
 
 		// Empty the searchResults:
 		searchResults.splice(0, searchResults.length);
 
 		// Empty the current street details:
-		streetDetails.splice(0, streetDetails.length);
-		// if (!images.length) {
-		// 	streetDetails.splice(0, streetDetails.length);
-		// }
+		if (copyDetails.length) {
+			copyDetails.splice(0, copyDetails.length);
+		}
+
+		// Empty the images array:
+		images.splice(0, images.length);
 
 	});
 });
@@ -194,6 +198,7 @@ app.get('/details/:slug/:id', function (req, res) {
 	  });
 
 		streetDetails = years;
+		copyDetails = streetDetails.slice();
 
 		res.redirect('/');
 	});
@@ -201,7 +206,14 @@ app.get('/details/:slug/:id', function (req, res) {
 
 // Server side rendering of images per year when no JS is available:
 app.get('/images/:year', function (req, res) {
-	console.log('year:', req.params.year);
+	var img = streetDetails.filter(function (item) {
+		if (item.year === req.params.year) {
+			return item;
+		}
+	});
+
+	images = img[0].images;
+	copyDetails = streetDetails.slice();
 
 	res.redirect('/');
 });
