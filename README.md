@@ -107,6 +107,13 @@ When you click on one of the years, all the images that are available from that 
 
 ![The images](screenshots/images.png)
 
+#### Service Worker
+---
+
+There is a Service Worker installed, that lets you keep using the website, even when there is no internet available. The browser caches the latest page for you, so you can still use this page when you're offline. The images that you recently opened are still available. Only the ones that you haven't opened yet are unreachable. The app will tell you when you're offline.
+
+![Offline App still works](screenshots/offline.png)
+
 ## Credits
 
 Credits goes out to [OBA](https://www.oba.nl), who initialized this project and [Adamlink](https://adamlink.nl/), for providing the data.
