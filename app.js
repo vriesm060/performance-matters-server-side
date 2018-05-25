@@ -36,7 +36,6 @@ var sparql = {
 			  ?street geo:hasGeometry ?geo .
 			  ?geo geo:asWKT ?wkt .
 			}
-			LIMIT 10
 		`;
 
 		return this.queryUrl(query);
@@ -75,24 +74,20 @@ function parseMultiLineString(str) {
 	return points;
 }
 
-// Local data storage:
-var streetsData = [];
-
-// Search results:
-var searchResults = [];
-
-// Street detail for current street:
-var streetDetails = [];
-var copyDetails = [];
-
-// Images for current year:
-var images = [];
+// Create a storage object:
+var storage = {
+	allStreets: [],
+	searchResults: [],
+	streetDetails: [],
+	streetDetailsCopy: [],
+	images: []
+};
 
 // Render the homepage:
 app.get('/', function (req, res) {
 
-	// Empty the streetsData:
-	streetsData.splice(0, streetsData.length);
+	// Empty allStreets data:
+	storage.allStreets.splice(0, storage.allStreets.length);
 
 	request(sparql.streetsQuery(), function (err, response, body) {
 		var data = JSON.parse(body);
@@ -116,25 +111,26 @@ app.get('/', function (req, res) {
 			};
 		});
 
-		streetsData = streets;
+		// Add new streets data:
+		storage.allStreets = streets;
 
 		res.render('index', {
-			streets: JSON.stringify(streetsData),
-			search: searchResults,
-			details: JSON.stringify(copyDetails),
-			images: JSON.stringify(images)
+			streets: JSON.stringify(storage.allStreets),
+			search: storage.searchResults,
+			details: JSON.stringify(storage.streetDetailsCopy),
+			images: JSON.stringify(storage.images)
 		});
 
 		// Empty the searchResults:
-		searchResults.splice(0, searchResults.length);
+		storage.searchResults.splice(0, storage.searchResults.length);
 
 		// Empty the current street details:
-		if (copyDetails.length) {
-			copyDetails.splice(0, copyDetails.length);
+		if (storage.streetDetailsCopy.length) {
+			storage.streetDetailsCopy.splice(0, storage.streetDetailsCopy.length);
 		}
 
 		// Empty the images array:
-		images.splice(0, images.length);
+		storage.images.splice(0, storage.images.length);
 
 	});
 });
@@ -144,13 +140,13 @@ app.get('/search', function (req, res) {
 	var key = Object.keys(req.query)[0];
 	var val = req.query[key];
 
-	var results = streetsData.filter(function (street) {
+	var results = storage.allStreets.filter(function (street) {
 		if (street.properties.streetName.substr(0, val.length).toUpperCase() == val.toUpperCase()) {
 			return street;
 		}
 	});
 
-	searchResults = results;
+	storage.searchResults = results;
 
 	res.redirect('/');
 });
@@ -197,8 +193,8 @@ app.get('/details/:slug/:id', function (req, res) {
 			item.left = ((Number(item.year) - Number(years[0].year)) * yearWidth);
 	  });
 
-		streetDetails = years;
-		copyDetails = streetDetails.slice();
+		storage.streetDetails = years;
+		storage.streetDetailsCopy = storage.streetDetails.slice();
 
 		res.redirect('/');
 	});
@@ -206,14 +202,14 @@ app.get('/details/:slug/:id', function (req, res) {
 
 // Server side rendering of images per year when no JS is available:
 app.get('/images/:year', function (req, res) {
-	var img = streetDetails.filter(function (item) {
+	var img = storage.streetDetails.filter(function (item) {
 		if (item.year === req.params.year) {
 			return item;
 		}
 	});
 
-	images = img[0].images;
-	copyDetails = streetDetails.slice();
+	storage.images = img[0].images;
+	storage.streetDetailsCopy = storage.streetDetails.slice();
 
 	res.redirect('/');
 });

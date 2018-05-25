@@ -1,6 +1,0 @@
-include head.pug
-
-  ul(class="search-results")
-    each street in streets
-      li
-        a(href="/details/" + street.properties.slug + "/" + street.properties.id)= street.properties.streetName

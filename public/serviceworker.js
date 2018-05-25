@@ -5,8 +5,9 @@ self.addEventListener('install', event => event.waitUntil(
 		// Add the following files/'routes' to the cache
 		.then(cache => cache.addAll([
 			'/',
+			'/offline/',
       '/css/style.css',
-      '/js/home.js'
+      '/js/script.js'
 		]))
 		.then(self.skipWaiting())
 ));
@@ -25,13 +26,13 @@ self.addEventListener('fetch', event => {
 				// On error check wether the page has been cached before
 				.catch(err => getCachedPage(request))
 				// Go to the offline page
-				.catch(err => fetchCoreFile('/'))
+				.catch(err => fetchCoreFile('/offline/'))
 		);
 	} else {
 		event.respondWith(
 			fetch(request)
 				.catch(err => fetchCoreFile(request.url))
-				.catch(err => fetchCoreFile('/'))
+				.catch(err => fetchCoreFile('/offline/'))
 		);
 	}
 });
