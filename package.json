@@ -17,6 +17,8 @@
     "request": "^2.85.0"
   },
   "devDependencies": {
-    "nodemon": "^1.17.2"
+    "browserify": "^16.2.2",
+    "nodemon": "^1.17.2",
+    "rm-local-modules": "0.0.2"
   }
 }

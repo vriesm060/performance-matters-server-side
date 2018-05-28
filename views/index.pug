@@ -1,5 +1,6 @@
-include head.pug
+extends layout
 
+block content
 	section(class="offline hidden")
 		h2 Je bent nu offline.
 
@@ -47,4 +48,4 @@ include head.pug
 		var streets = JSON.parse(`!{streets}`);
 		var details = JSON.parse(`!{details}`);
 
-	script(type="text/javascript" src="/js/script.js")
+	//- script(type="text/javascript" src="/js/script.js")
