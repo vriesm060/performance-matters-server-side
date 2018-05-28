@@ -16,4 +16,6 @@ app.set('view engine', 'pug');
 // Require the routes:
 var routes = require('./routes');
 
+app.use('/', routes);
+
 app.listen(process.env.PORT);

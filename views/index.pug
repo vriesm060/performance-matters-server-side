@@ -1,6 +1,5 @@
-extends layout
+include layout
 
-block content
 	section(class="offline hidden")
 		h2 Je bent nu offline.
 
@@ -43,9 +42,3 @@ block content
 						rect(x="237.5" y="0" transform="matrix(0.7071 -0.7071 0.7071 0.7071 -103.5534 250)" width="25" height="500")
 						rect(x="0" y="237.5" transform="matrix(0.7071 -0.7071 0.7071 0.7071 -103.5534 250)" width="500" height="25")
 				ul
-
-	script.
-		var streets = JSON.parse(`!{streets}`);
-		var details = JSON.parse(`!{details}`);
-
-	//- script(type="text/javascript" src="/js/script.js")
