@@ -4,12 +4,12 @@ grunt.initConfig({
   critical: {
     dist: {
       options: {
-        base: './public'
+        base: './'
       },
       // The source file
-      src: 'css/style.css',
+      src: '/',
       // The destination file
-      dest: 'css/results.css'
+      dest: 'results.html'
       }
     }
   });
