@@ -8,13 +8,12 @@ html(lang="nl")
 			title OBA App Server Side
 			link(rel="manifest" href="/manifest.json")
 			link(rel="stylesheet" type="text/css" href="/css/style.css")
-				
-			script.
-				var streets = JSON.parse(`!{streets}`);
-				var details = JSON.parse(`!{details}`);
-			script(src="/js/bundle.js" async="true" defer="true")
 
 	body
+		script.
+			var streets = JSON.parse(`!{streets}`);
+			var details = JSON.parse(`!{details}`);
+		script(src="/js/bundle.js" async="true" defer="true")
 		script.
 			if ('serviceWorker' in navigator) {
 				navigator.serviceWorker.register('/serviceworker.js')
