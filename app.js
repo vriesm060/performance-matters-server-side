@@ -1,18 +1,9 @@
-// Require Node modules:
 var express = require('express');
 var request = require('request');
 var bodyParser = require('body-parser');
 var pug = require('pug');
 var app = express();
 
-var express = require('express');
-var router = express.Router();
-
-var storage = require('./data/storage.js');
-var sparql = require('./data/queries.js');
-var parseMultiLineString = require('./data/parseMultiLineString.js');
-
-// Require .env files:
 require('dotenv').config({ path: './vars.env' });
 
 app.use(express.static('public'));
@@ -20,8 +11,78 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.set('view engine', 'pug');
 
+// Sparql object with all queries and query url:
+var sparql = {
+	encodedQuery: function (query) { return encodeURIComponent(query); },
+	queryUrl: function (query) {
+		return `
+			https://api.data.adamlink.nl/datasets/AdamNet/all/services/hva2018/sparql?default-graph-uri=&query=
+			${this.encodedQuery(query)}
+			&format=application%2Fsparql-results%2Bjson&timeout=0&debug=on
+		`;
+	},
+	streetsQuery: function () {
+		var query = `
+			PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+			PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+			PREFIX hg: <http://rdf.histograph.io/>
+			PREFIX geo: <http://www.opengis.net/ont/geosparql#>
+			PREFIX geof: <http://www.opengis.net/def/function/geosparql/>
+			SELECT ?street ?name ?wkt WHERE {
+			  ?street a hg:Street .
+			  ?street rdfs:label ?name .
+			  ?street geo:hasGeometry ?geo .
+			  ?geo geo:asWKT ?wkt .
+			}
+		`;
+
+		return this.queryUrl(query);
+	},
+	streetDetailsQuery: function (slug, id) {
+		var query = `
+			PREFIX dct: <http://purl.org/dc/terms/>
+			PREFIX foaf: <http://xmlns.com/foaf/0.1/>
+			PREFIX dc: <http://purl.org/dc/elements/1.1/>
+			PREFIX sem: <http://semanticweb.cs.vu.nl/2009/11/sem/>
+			SELECT ?item ?img YEAR(?date) WHERE {
+			  ?item dct:spatial <https://adamlink.nl/geo/street/${slug}/${id}> .
+			  ?item foaf:depiction ?img .
+			  ?item dc:type "foto"^^xsd:string.
+			  ?item sem:hasBeginTimeStamp ?date .
+			}
+			ORDER BY ?date
+		`;
+
+		return this.queryUrl(query);
+	}
+};
+
+// Parse the multiline string geometry into a readable array for Leaflet JS:
+function parseMultiLineString(str) {
+	str = str.replace('MULTILINESTRING((', '');
+	str = str.replace('LINESTRING(', '');
+	str = str.replace(')', '');
+	var pointsAsString = str.split(',');
+
+	var points = pointsAsString.map(function (d) {
+		return d.split(' ');
+	});
+
+	return points;
+}
+
+// Create a storage object:
+var storage = {
+	allStreets: [],
+	searchResults: [],
+	streetDetails: [],
+	streetDetailsCopy: [],
+	images: []
+};
+
 // Render the homepage:
-router.get('/', function (req, res) {
+app.get('/', function (req, res) {
+
 	// Empty allStreets data:
 	storage.allStreets.splice(0, storage.allStreets.length);
 
@@ -67,13 +128,13 @@ router.get('/', function (req, res) {
 
 		// Empty the images array:
 		storage.images.splice(0, storage.images.length);
+
 	});
 });
 
 // Get the search results and give them back to the homepage:
-router.get('/search', function (req, res) {
-	console.log(req.query);
-  var key = Object.keys(req.query)[0];
+app.get('/search', function (req, res) {
+	var key = Object.keys(req.query)[0];
 	var val = req.query[key];
 
 	var results = storage.allStreets.filter(function (street) {
@@ -87,8 +148,7 @@ router.get('/search', function (req, res) {
 	res.redirect('/');
 });
 
-// Get street details:
-router.get('/details/:slug/:id', function (req, res) {
+app.get('/details/:slug/:id', function (req, res) {
 	request(sparql.streetDetailsQuery(req.params.slug, req.params.id), function (err, response, body) {
 		var data = JSON.parse(body);
 		var rows = data.results.bindings;
@@ -138,7 +198,7 @@ router.get('/details/:slug/:id', function (req, res) {
 });
 
 // Server side rendering of images per year when no JS is available:
-router.get('/images/:year', function (req, res) {
+app.get('/images/:year', function (req, res) {
 	var img = storage.streetDetails.filter(function (item) {
 		if (item.year === req.params.year) {
 			return item;
