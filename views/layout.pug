@@ -10,18 +10,3 @@ html(lang="nl")
 			link(rel="stylesheet" type="text/css" href="/css/style.css")
 
 	body
-		script.
-			var streets = JSON.parse(`!{streets}`);
-			var details = JSON.parse(`!{details}`);
-		script(src="/js/bundle.js" async="true" defer="true")
-		script.
-			if ('serviceWorker' in navigator) {
-				navigator.serviceWorker.register('/serviceworker.js')
-					.then(function(registration) {
-						console.log('Browser supports Service workers', registration)
-					}).catch(function(err) {
-						console.log('Failed to register service worker')
-					});
-			} else {
-				console.log('No support for service workers')
-			}

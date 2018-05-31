@@ -6,11 +6,11 @@ var checkStatus = {
   offlineMsg: document.querySelector('.offline'),
   init: function () {
     window.addEventListener('online', function () {
-      this.showOnline();
+      checkStatus.showOnline();
     }, false)
 
     window.addEventListener('offline', function () {
-      this.showOffline();
+      checkStatus.showOffline();
     }, false)
 
     if (!navigator.onLine) {
@@ -24,7 +24,7 @@ var checkStatus = {
     });
   },
   showOffline: function () {
-    offlineMsg.classList.remove('hidden');
+    this.offlineMsg.classList.remove('hidden');
     search.form.children[0].children.forEach(function (input) {
       input.setAttribute('disabled', 'true');
     });

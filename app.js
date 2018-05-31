@@ -2,11 +2,17 @@ var express = require('express');
 var request = require('request');
 var bodyParser = require('body-parser');
 var pug = require('pug');
+var session = require('express-session')({
+  secret: 'keyboard cat',
+  resave: true,
+  saveUninitialized: true
+});
 var app = express();
 
 require('dotenv').config({ path: './vars.env' });
 
 app.use(express.static('public'));
+app.use(session);
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.set('view engine', 'pug');
@@ -79,6 +85,8 @@ var storage = {
 	streetDetailsCopy: [],
 	images: []
 };
+
+
 
 // Render the homepage:
 app.get('/', function (req, res) {
