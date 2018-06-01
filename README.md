@@ -88,7 +88,7 @@ The app has the following features:
 
 ## Usage
 
-#### Searching
+### Searching
 ---
 
 When you start the app, the data from all the streets is loaded in and you can search for one using the searchbar. Searching can be done both server side and client side. When JS is turned on, the searchbar features autocomplete to make it easier for you.
@@ -97,21 +97,21 @@ When you start the app, the data from all the streets is loaded in and you can s
 
 When JS is turned off, however, this feature is not accessible. But no worry, you can still search server side by submitting the form.
 
-#### Timeline
+### Timeline
 ---
 
 After you have found the street you where looking for, a timeline appears. The white dots represent a year in which there are recordings of this street.
 
 ![The timeline](screenshots/timeline.png)
 
-#### Images
+### Images
 ---
 
 When you click on one of the years, all the images that are available from that year appear, for you to enjoy!
 
 ![The images](screenshots/images.png)
 
-#### Service Worker
+### Service Worker
 ---
 
 There is a Service Worker installed, that lets you keep using the website, even when there is no internet available. The browser caches the latest page for you, so you can still use this page when you're offline. The images that you recently opened are still available. Only the ones that you haven't opened yet are unreachable. The app will tell you when you're offline.
@@ -120,29 +120,37 @@ There is a Service Worker installed, that lets you keep using the website, even 
 
 ## Audit
 
-#### Adding Browserify
+### Adding Browserify
 ---
 
 The original app performance was really bad. It took
 
-| Before | After |
-| ------ | ----- |
-| ![Original performance](screenshots/original.png) | ![After adding browserify](screenshots/after-browserify.png) |
+**Before:**
+![Original performance](screenshots/original.png)
 
-| Audit before | Audit after |
-| ------------ | ----------- |
-| ![Original audit](screenshots/audit-original.png) | ![Audit after adding browserify](screenshots/audit-browserify.png) |
+**After:**
+![After adding browserify](screenshots/after-browserify.png)
 
-#### Adding server side modules
+**Audit before:**
+![Original audit](screenshots/audit-original.png)
+
+**Audit after:**
+![Audit after adding browserify](screenshots/audit-browserify.png)
+
+### Adding server side modules
 ---
 
-| Before | After |
-| ------ | ----- |
-| ![Original performance](screenshots/original.png) | ![After adding server side modules](screenshots/after-modules.png) |
+**Before:**
+![Original performance](screenshots/original.png)
 
-| Audit before | Audit after |
-| ------------ | ----------- |
-| ![Original audit](screenshots/audit-original.png) | ![Audit after adding server side modules](screenshots/audit-modules.png) |
+**After:**
+![After adding server side modules](screenshots/after-modules.png)
+
+**Audit before:**
+![Original audit](screenshots/audit-original.png)
+
+**Audit after:**
+![Audit after adding server side modules](screenshots/audit-modules.png)
 
 ## Credits
 
