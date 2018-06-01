@@ -46,8 +46,7 @@ include layout
 	script(async="true" defer="true").
 		var streets = JSON.parse(`!{streets}`);
 		var details = JSON.parse(`!{details}`);
-		console.log(streets);
-	script(src="/js/bundle.js" async defer)
+	script(src="/dist/bundle.js" async defer)
 	script().
 		if ('serviceWorker' in navigator) {
 			navigator.serviceWorker.register('/serviceworker.js')
