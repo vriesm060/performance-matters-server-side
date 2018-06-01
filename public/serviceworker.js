@@ -7,7 +7,7 @@ self.addEventListener('install', event => event.waitUntil(
 			'/',
 			'/offline/',
       '/css/style.css',
-      '/js/script.js'
+      '/js/bundle.js'
 		]))
 		.then(self.skipWaiting())
 ));

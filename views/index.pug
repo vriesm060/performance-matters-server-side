@@ -1,4 +1,4 @@
-include head.pug
+include layout
 
 	section(class="offline hidden")
 		h2 Je bent nu offline.
@@ -24,7 +24,7 @@ include head.pug
 						li(style="left:" + item.left + "%;")
 							a(href="/images/" + item.year)
 								span= item.year
-
+		
 		if JSON.parse(images).length						
 			div(class="images--container show")
 				button(class="close-btn" type="button" aria-label="Sluit dit venster")
@@ -42,9 +42,19 @@ include head.pug
 						rect(x="237.5" y="0" transform="matrix(0.7071 -0.7071 0.7071 0.7071 -103.5534 250)" width="25" height="500")
 						rect(x="0" y="237.5" transform="matrix(0.7071 -0.7071 0.7071 0.7071 -103.5534 250)" width="500" height="25")
 				ul
-
-	script.
+	
+	script(async="true" defer="true").
 		var streets = JSON.parse(`!{streets}`);
 		var details = JSON.parse(`!{details}`);
-
-	script(type="text/javascript" src="/js/script.js")
+	script(src="/dist/bundle.js" async defer)
+	script().
+		if ('serviceWorker' in navigator) {
+			navigator.serviceWorker.register('/serviceworker.js')
+				.then(function(registration) {
+					console.log('Browser supports Service workers', registration)
+				}).catch(function(err) {
+					console.log('Failed to register service worker')
+				});
+		} else {
+			console.log('No support for service workers')
+		}

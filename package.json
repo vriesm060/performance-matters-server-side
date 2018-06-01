@@ -5,18 +5,21 @@
   "main": "app.js",
   "scripts": {
     "start": "nodemon app.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "watch": "npm run build-js | npm run watch-js",
+    "build-js": "browserify public/js/*.js -o public/dist/bundle.js",
+    "watch-js": "watchify public/js/*.js -o public/dist/bundle.js"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "body-parser": "^1.18.2",
     "dotenv": "^5.0.1",
     "express": "^4.16.3",
     "pug": "^2.0.3",
     "request": "^2.85.0"
   },
   "devDependencies": {
-    "nodemon": "^1.17.2"
+    "browserify": "^16.2.2",
+    "nodemon": "^1.17.2",
+    "watchify": "^3.11.0"
   }
 }
