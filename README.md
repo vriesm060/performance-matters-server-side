@@ -2,13 +2,6 @@
 
 ![Preview](screenshots/preview.png)
 
-Try color:
-
-```diff
-+ green
-- red
-```
-
 This is a web app, created for the [Openbare Bibliotheek Amsterdam](https://www.oba.nl), that shows images from all the streets located in Amsterdam, sorted by year. The images are taken from the Amsterdam city archives and they show how each street has evolved over time.
 
 ## Table of Contents
@@ -149,7 +142,7 @@ After installing Browserify and bundling all the client side JS files, these wer
 | First meaningful paint | First interactive | Score  |
 | ---------------------- | ----------------- | ------ |
 | 2.400 seconds          | 24.670 seconds    | 43/100 |
-| <font color="green">-0.310 seconds</font> | <span style="color:green;">-0.010 seconds</span> | <span style="color:green;">+2</span> |
+| <div style="color:green;">-0.310 seconds</div> | <span style="color:green;">-0.010 seconds</span> | <span style="color:green;">+2</span> |
 
 The changes weren't significant, but it decreased a little of the loading time and got a slightly better score from the audit.
 
