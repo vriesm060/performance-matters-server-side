@@ -12,20 +12,24 @@ This is a web app, created for the [Openbare Bibliotheek Amsterdam](https://www.
 * [Data](#data)
 * [Features](#features)
 * [Usage](#usage)
+* [Audit](#audit)
 * [Credits](#credits)
 
 ## Frameworks and packages
 
 The app has been build using the following frameworks and npm packages:
 
+* [Browserify](http://browserify.org/)
+* [Dotenv](https://www.npmjs.com/package/dotenv)
 * [Express JS](https://expressjs.com/)
-* [Express JS Body Parser](https://github.com/expressjs/body-parser)
+* [Nodemon](https://nodemon.io/)
 * [Pug JS](https://pugjs.org/)
 * [Request](https://github.com/request/request)
+* [Watchify](https://github.com/browserify/watchify)
 
 ## Installation
 
-In order to run the server for yourself locally, `git clone` this repository (https://github.com/vriesm060/performance-matters-server-side), `cd` to the directory in your terminal and install the packages using `npm install`.
+In order to run the server for yourself locally, `git clone` this repository (https://github.com/vriesm060/performance-matters-server-side), `cd` to the directory in your terminal and install the packages using `npm install`. Next you need to run `npm run watch` to build and watch the `bundle.js` file, located in the `dist` directory.
 
 ## Getting Started
 
@@ -33,7 +37,7 @@ Before you start the app, you need to create a `vars.env` file in the root direc
 
 ## Data
 
-The data comes from [Adamlink](https://adamlink.nl/) and gets fetched using Sparql queries.
+The data comes from [AdamNet](http://www.adamnet.nl/) and gets fetched using Sparql queries.
 
 A snippet of a Sparql query:
 ```
@@ -114,6 +118,32 @@ There is a Service Worker installed, that lets you keep using the website, even 
 
 ![Offline App still works](screenshots/offline.png)
 
+## Audit
+
+#### Adding Browserify
+---
+
+The original app performance was really bad. It took
+
+| Before | After |
+| ------ | ----- |
+| ![Original performance](screenshots/original.png) | ![After adding browserify](screenshots/after-browserify.png) |
+
+| Audit before | Audit after |
+| ------------ | ----------- |
+| ![Original audit](screenshots/audit-original.png) | ![Audit after adding browserify](screenshots/audit-browserify.png) |
+
+#### Adding server side modules
+---
+
+| Before | After |
+| ------ | ----- |
+| ![Original performance](screenshots/original.png) | ![After adding server side modules](screenshots/after-modules.png) |
+
+| Audit before | Audit after |
+| ------------ | ----------- |
+| ![Original audit](screenshots/audit-original.png) | ![Audit after adding server side modules](screenshots/audit-modules.png) |
+
 ## Credits
 
-Credits goes out to [OBA](https://www.oba.nl), who initialized this project and [Adamlink](https://adamlink.nl/), for providing the data.
+Credits goes out to [OBA](https://www.oba.nl), who initialized this project and [AdamNet](http://www.adamnet.nl/), for providing the data.
