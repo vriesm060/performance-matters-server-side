@@ -139,10 +139,10 @@ With no Browserify installed, all the client side JS in one script file and no s
 
 After installing Browserify and bundling all the client side JS files, these were the stats:
 
-| First meaningful paint | First interactive | Score  |
-| ---------------------- | ----------------- | ------ |
-| 2.400 seconds          | 24.670 seconds    | 43/100 |
-| <div style="color:green;">-0.310 seconds</div> | <span style="color:green;">-0.010 seconds</span> | <span style="color:green;">+2</span> |
+| First meaningful paint | First interactive  | Score  |
+| ---------------------- | ------------------ | ------ |
+| 2.400 seconds          | 24.670 seconds     | 43/100 |
+| **-0.310 seconds**     | **-0.010 seconds** | **+2** |
 
 The changes weren't significant, but it decreased a little of the loading time and got a slightly better score from the audit.
 
@@ -169,10 +169,10 @@ With no Browserify installed, all the client side JS in one script file and no s
 
 After all the server side files were also put into modules, just like the client side JS files using Browserify, these were the stats:
 
-| First meaningful paint | First interactive | Score  |
-| ---------------------- | ----------------- | ------ |
-| 2.990 seconds          | 6.940 seconds     | 72/100 |
-| <span style="color:red;">+0.280 seconds</span> | <span style="color:green;">-17.740 seconds</span> | <span style="color:green;">+31</span> |
+| First meaningful paint | First interactive   | Score   |
+| ---------------------- | ------------------- | ------- |
+| 2.990 seconds          | 6.940 seconds       | 72/100  |
+| **+0.280 seconds**     | **-17.740 seconds** | **+31** |
 
 This did the trick! Even though the time it took for the First meaningful paint to load increased, the overall loading time decreased with almost 18 seconds! :open_mouth: And the audit score got up by 31 points, to a nice 72/100.
 
