@@ -2,6 +2,13 @@
 
 ![Preview](screenshots/preview.png)
 
+Try color:
+
+```diff
++ green
+- red
+```
+
 This is a web app, created for the [Openbare Bibliotheek Amsterdam](https://www.oba.nl), that shows images from all the streets located in Amsterdam, sorted by year. The images are taken from the Amsterdam city archives and they show how each street has evolved over time.
 
 ## Table of Contents
