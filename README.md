@@ -120,19 +120,34 @@ There is a Service Worker installed, that lets you keep using the website, even 
 
 ## Audit
 
+All the audits where done on a Fast 3G internet connection, which was good enough to check the app's performance on.
+
 ### Adding Browserify
 ---
 
-The original app performance was really bad. It took
+With no Browserify installed, all the client side JS in one script file and no server side modules used, these were the stats:
+
+| First meaningful paint | First interactive | Score  |
+| ---------------------- | ----------------- | ------ |
+| 2.710 seconds          | 24.680 seconds    | 41/100 |
 
 **Before:**
 ![Original performance](screenshots/original.png)
 
-**After:**
-![After adding browserify](screenshots/after-browserify.png)
-
 **Audit before:**
 ![Original audit](screenshots/audit-original.png)
+
+After installing Browserify and bundling all the client side JS files, these were the stats:
+
+| First meaningful paint | First interactive | Score  |
+| ---------------------- | ----------------- | ------ |
+| 2.400 seconds          | 24.670 seconds    | 43/100 |
+| <span style="color:green;">-0.310 seconds</span> | <span style="color:green;">-0.010 seconds</span> | <span style="color:green;">+2</span> |
+
+The changes weren't significant, but it decreased a little of the loading time and got a slightly better score from the audit.
+
+**After:**
+![After adding browserify](screenshots/after-browserify.png)
 
 **Audit after:**
 ![Audit after adding browserify](screenshots/audit-browserify.png)
@@ -140,14 +155,29 @@ The original app performance was really bad. It took
 ### Adding server side modules
 ---
 
+With no Browserify installed, all the client side JS in one script file and no server side modules used, these were the stats:
+
+| First meaningful paint | First interactive | Score  |
+| ---------------------- | ----------------- | ------ |
+| 2.710 seconds          | 24.680 seconds    | 41/100 |
+
 **Before:**
 ![Original performance](screenshots/original.png)
 
-**After:**
-![After adding server side modules](screenshots/after-modules.png)
-
 **Audit before:**
 ![Original audit](screenshots/audit-original.png)
+
+After all the server side files were also put into modules, just like the client side JS files using Browserify, these were the stats:
+
+| First meaningful paint | First interactive | Score  |
+| ---------------------- | ----------------- | ------ |
+| 2.990 seconds          | 6.940 seconds     | 72/100 |
+| <span style="color:red;">+0.280 seconds</span> | <span style="color:green;">-17.740 seconds</span> | <span style="color:green;">+31</span> |
+
+This did the trick! Even though the time it took for the First meaningful paint to load increased, the overall loading time decreased with almost 18 seconds! :open_mouth: And the audit score got up by 31 points, to a nice 72/100.
+
+**After:**
+![After adding server side modules](screenshots/after-modules.png)
 
 **Audit after:**
 ![Audit after adding server side modules](screenshots/audit-modules.png)
