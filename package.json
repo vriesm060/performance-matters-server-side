@@ -5,7 +5,8 @@
   "main": "app.js",
   "scripts": {
     "start": "nodemon app.js",
-    "watch": "npm run build-js | npm run watch-js",
+    "build": "npm run build-js",
+    "watch": "npm run watch-js",
     "build-js": "browserify public/js/*.js -o public/dist/bundle.js",
     "watch-js": "watchify public/js/*.js -o public/dist/bundle.js"
   },

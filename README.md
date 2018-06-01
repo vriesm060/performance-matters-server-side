@@ -2,6 +2,8 @@
 
 ![Preview](screenshots/preview.png)
 
+[Live Demo](https://oba-server-side-woaykgcayj.now.sh/)
+
 This is a web app, created for the [Openbare Bibliotheek Amsterdam](https://www.oba.nl), that shows images from all the streets located in Amsterdam, sorted by year. The images are taken from the Amsterdam city archives and they show how each street has evolved over time.
 
 ## Table of Contents
@@ -29,7 +31,7 @@ The app has been build using the following frameworks and npm packages:
 
 ## Installation
 
-In order to run the server for yourself locally, `git clone` this repository (https://github.com/vriesm060/performance-matters-server-side), `cd` to the directory in your terminal and install the packages using `npm install`. Next you need to run `npm run watch` to build and watch the `bundle.js` file, located in the `dist` directory.
+In order to run the server for yourself locally, `git clone` this repository (https://github.com/vriesm060/performance-matters-server-side), `cd` to the directory in your terminal and install the packages using `npm install`. Next you need to run `npm run build` to build the `bundle.js` file, located in the `dist` directory.
 
 ## Getting Started
 
