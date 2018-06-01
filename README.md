@@ -142,7 +142,7 @@ After installing Browserify and bundling all the client side JS files, these wer
 | First meaningful paint | First interactive | Score  |
 | ---------------------- | ----------------- | ------ |
 | 2.400 seconds          | 24.670 seconds    | 43/100 |
-| <span style="color:green;">-0.310 seconds</span> | <span style="color:green;">-0.010 seconds</span> | <span style="color:green;">+2</span> |
+| <font color="green">-0.310 seconds</font> | <span style="color:green;">-0.010 seconds</span> | <span style="color:green;">+2</span> |
 
 The changes weren't significant, but it decreased a little of the loading time and got a slightly better score from the audit.
 
