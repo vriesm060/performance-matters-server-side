@@ -8,7 +8,8 @@
     "build": "npm run build-js",
     "dev": "npm run build-js | npm run watch-js",
     "build-js": "browserify public/js/*.js -o public/dist/bundle.js",
-    "watch-js": "watchify public/js/*.js -o public/dist/bundle.js"
+    "watch-js": "watchify public/js/*.js -o public/dist/bundle.js",
+    "deploy": "npm run build | npm start"
   },
   "author": "",
   "license": "ISC",
